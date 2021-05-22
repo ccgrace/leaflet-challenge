@@ -18,22 +18,22 @@ var link = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/4.5_week.g
 d3.json(link).then(function(response) {
     var quakes = response.features
 
-    console.log(quakes[].properties.mag);
+    console.log(quakes[3].geometry.coordinates[2]);
   
     for (var i = 0; i < quakes.length; i++) {
-      var location = quakes[5].geometry;
+      var location = quakes[1].geometry;
       var color = "";
       
-      if (location.coordinates[3] > 200) {
+      if (location.coordinates[2] > 200) {
         color = "red";
       }
-      else if (location.coordinates[3] > 150) {
+      else if (location.coordinates[2] > 150) {
         color = "orange";
       }
-      else if (location.coordinates[3] > 100) {
+      else if (location.coordinates[2] > 100) {
         color = "yellow";
       }
-      else if (location.coordinates[3] > 50) {
+      else if (location.coordinates[2] > 50) {
         color = "green";
       }
       else {
