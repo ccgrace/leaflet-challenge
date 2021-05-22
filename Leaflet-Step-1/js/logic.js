@@ -13,7 +13,7 @@ L.tileLayer("https://api.mapbox.com/styles/v1/mapbox/{id}/tiles/{z}/{x}/{y}?acce
 
 
 // Use this link to get the geojson data.
-var link = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/significant_month.geojson";
+var link = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/1.0_month.geojson";
 
 d3.json(link).then(function(response) {
     var quakes = response.features
@@ -23,35 +23,37 @@ d3.json(link).then(function(response) {
     for (var i = 0; i < quakes.length; i++) {
       var location = quakes[i].geometry;
       
-      if (location.coordinates[3] > 200) {
-        color = "darkred"
+    function color(depth) {
+
+      var depthcolor = "";
+      
+      if (depth > 100) {
+        depthcolor = "990000";
       }
-      else if (location.coordinates[3] > 100) {
-          color = "red";
+      else if (depth > 80) {
+        depthcolor = "#FF0000";
       }
-      else if (location.coordinates[3] > 80) {
-          color = "darkorange";
+      else if (depth > 60) {
+        depthcolor = "#eb5e34";
       }
-      else if (location.coordinates[3] > 60) {
-          color = "orange";
+      else if (depth > 40) {
+        depthcolor = "#eb9f34";
       }
-      else if (location.coordinates[3] > 40) {
-          color = "yellow";
-      }
-      else if (location.coordinates[3] > 20) {
-          color = "green";
+      else if (depth > 20) {
+        depthcolor = "#ebd334";
       }
       else {
-          color = "lightgreen";
+        depthcolor = "#e2eb34";
       };
-      
+      return depthcolor
+    }
       if (location) {
-        L.circleMarker([location.coordinates[1], location.coordinates[0]], {
+        
+      L.circleMarker([location.coordinates[1], location.coordinates[0]], {
             fillOpacity: 0.75,
-            fillcolor: color,
-            radius: quakes[i].properties.mag * 5
+            fillcolor: color(location.coordinates[3]),
+            radius: quakes[i].properties.mag * 2
         }).bindPopup("<h1>" + quakes[i].properties.place + "</h1>").addTo(myMap);
       }
     }
   });
-  
