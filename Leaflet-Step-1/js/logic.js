@@ -22,39 +22,31 @@ d3.json(link).then(function(response) {
   
     for (var i = 0; i < quakes.length; i++) {
       var location = quakes[i].geometry;
+      var color = "";
       
-  
-      var depthcolor = "";
-      
-      if (depth > 100) {
-        depthcolor = "990000";
+      if (location.coordinates[3] > 200) {
+        color = "red";
       }
-      else if (depth > 80) {
-        depthcolor = "#FF0000";
+      else if (location.coordinates[3] > 150) {
+        color = "orange";
       }
-      else if (depth > 60) {
-        depthcolor = "#eb5e34";
+      else if (location.coordinates[3] > 100) {
+        color = "yellow";
       }
-      else if (depth > 40) {
-        depthcolor = "#eb9f34";
-      }
-      else if (depth > 20) {
-        depthcolor = "#ebd334";
+      else if (location.coordinates[3] > 50) {
+        color = "green";
       }
       else {
-        depthcolor = "#e2eb34";
+        color = "yellowgreen";
       };
-      return depthcolor
     }
-      if (location) {
         
       L.circleMarker([location.coordinates[1], location.coordinates[0]], {
             fillOpacity: 0.75,
-            fillcolor: color(location.coordinates[3]),
+            fillcolor: color,
             radius: quakes[i].properties.mag * 2
         }).bindPopup("<h1>" + quakes[i].properties.place + "</h1>").addTo(myMap);
-      }
-    }
+  });
 
   // Create a legend to display information about our map
 var key = L.control({ position: "bottomright" });
@@ -62,15 +54,14 @@ var key = L.control({ position: "bottomright" });
 // When the layer control is added, insert a div with the class of "legend"
 key.onAdd = function() {
   var div = L.DomUtil.create("div", "key");
-  var depth = ["0-20", "20-40", "40-60", "60-80", "80-100", ">100"]
-  var colors = ["#e2eb34", "#ebd334", "#eb9f34", "#eb5e34", "#FF0000", "990000"]
+  var depth = ["0-50", "50-100", "100-150", "150-200", ">200"]
+  var colors = ["yellowgreen", "green", "yellow", "orange", "red"]
   var labels = [];
   
-  limits.forEach(function(limit, index) {
-    labels.push("<p><div class=\"color\" style=\"background-color: " + colors[index] + "\"> </div> <span>" + limit +  "</span> </p>");
-});
+  depth.forEach(function(limit, index) {
+    labels.push("<p><div class=\"color\" style=\"background-color: " + colors[index] + "\"> </div> <span>" + depth +  "</span> </p>");
+  });
 div.innerHTML += labels.join(""); // joining all the tags into one single string 
 return div;
 };
 key.addTo(myMap); 
-});
