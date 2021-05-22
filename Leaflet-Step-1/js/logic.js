@@ -46,7 +46,7 @@ d3.json(link).then(function(response) {
             radius: quakes[i].properties.mag * 2
         }).bindPopup("<h1>" + quakes[i].properties.place + "</h1>").addTo(myMap);
     }
-  });
+ 
 
   // Create a legend to display information about our map
 var key = L.control({ position: "bottomright" });
@@ -58,10 +58,12 @@ key.onAdd = function() {
   var colors = ["yellowgreen", "green", "yellow", "orange", "red"]
   var labels = [];
   
-  depth.forEach(function(limit, index) {
+  depth.forEach(function(depth, index) {
     labels.push("<p><div class=\"color\" style=\"background-color: " + colors[index] + "\"> </div> <span>" + depth +  "</span> </p>");
   });
 div.innerHTML += labels.join(""); // joining all the tags into one single string 
 return div;
 };
-key.addTo(myMap); 
+key.addTo(myMap);
+
+});
