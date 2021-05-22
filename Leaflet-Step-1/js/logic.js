@@ -13,15 +13,15 @@ L.tileLayer("https://api.mapbox.com/styles/v1/mapbox/{id}/tiles/{z}/{x}/{y}?acce
 
 
 // Use this link to get the geojson data.
-var link = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/4.5_week.geojson";
+var link = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geojson";
 
 d3.json(link).then(function(response) {
     var quakes = response.features
 
-    console.log(quakes[3].geometry.coordinates[2]);
+    console.log(quakes[1].geometry.coordinates[2]);
   
     for (var i = 0; i < quakes.length; i++) {
-      var location = quakes[1].geometry;
+      var location = quakes[i].geometry;
       var color = "";
       
       if (location.coordinates[2] > 200) {
