@@ -8,7 +8,7 @@ L.tileLayer("https://api.mapbox.com/styles/v1/mapbox/{id}/tiles/{z}/{x}/{y}?acce
     attribution: "Map data &copy; <a href=\"https://www.openstreetmap.org/\">OpenStreetMap</a> contributors, <a href=\"https://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA</a>, Imagery © <a href=\"https://www.mapbox.com/\">Mapbox</a>",
     maxZoom: 18,
     id: "light-v10",
-    accessToken: API_KEY
+    accessToken: "pk.eyJ1IjoiY2NncmFjZSIsImEiOiJja296MjM2ZnkwMXZ0MndwZXR0dmI0ZWEyIn0.ZP_G3UkufeT4HwQyULf2zw"
 }).addTo(myMap);
 
 
@@ -18,11 +18,10 @@ var link = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/significan
 d3.json(link).then(function(response) {
     var quakes = response.features
 
-    console.log(quakes[0].geometry.coordinates[2]);
+    console.log(quakes[0].properties.mag);
   
     for (var i = 0; i < quakes.length; i++) {
       var location = quakes[i].geometry;
-      var color = "";
       
       if (location.coordinates[3] > 200) {
         color = "darkred"
@@ -47,11 +46,10 @@ d3.json(link).then(function(response) {
       };
       
       if (location) {
-        L.circle([location.coordinates[1], location.coordinates[0]], {
+        L.circleMarker([location.coordinates[1], location.coordinates[0]], {
             fillOpacity: 0.75,
-            color: "blue",
             fillcolor: color,
-            radius: quakes[i].properties.mag
+            radius: quakes[i].properties.mag * 5
         }).bindPopup("<h1>" + quakes[i].properties.place + "</h1>").addTo(myMap);
       }
     }
