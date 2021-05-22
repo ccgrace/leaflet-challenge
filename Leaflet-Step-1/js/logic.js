@@ -39,13 +39,13 @@ d3.json(link).then(function(response) {
       else {
         color = "yellowgreen";
       };
-    }
-        
+ 
       L.circleMarker([location.coordinates[1], location.coordinates[0]], {
             fillOpacity: 0.75,
             fillcolor: color,
             radius: quakes[i].properties.mag * 2
         }).bindPopup("<h1>" + quakes[i].properties.place + "</h1>").addTo(myMap);
+    }
   });
 
   // Create a legend to display information about our map
