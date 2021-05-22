@@ -13,15 +13,15 @@ L.tileLayer("https://api.mapbox.com/styles/v1/mapbox/{id}/tiles/{z}/{x}/{y}?acce
 
 
 // Use this link to get the geojson data.
-var link = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/1.0_month.geojson";
+var link = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/4.5_week.geojson";
 
 d3.json(link).then(function(response) {
     var quakes = response.features
 
-    console.log(quakes[0].properties.mag);
+    console.log(quakes[].properties.mag);
   
     for (var i = 0; i < quakes.length; i++) {
-      var location = quakes[i].geometry;
+      var location = quakes[5].geometry;
       var color = "";
       
       if (location.coordinates[3] > 200) {
@@ -39,10 +39,11 @@ d3.json(link).then(function(response) {
       else {
         color = "yellowgreen";
       };
- 
+
       L.circleMarker([location.coordinates[1], location.coordinates[0]], {
             fillOpacity: 0.75,
-            fillcolor: color,
+            color: color,
+            fillColor: color,
             radius: quakes[i].properties.mag * 2
         }).bindPopup("<h1>" + quakes[i].properties.place + "</h1>").addTo(myMap);
     }
