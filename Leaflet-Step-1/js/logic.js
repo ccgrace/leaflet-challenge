@@ -8,7 +8,7 @@ L.tileLayer("https://api.mapbox.com/styles/v1/mapbox/{id}/tiles/{z}/{x}/{y}?acce
     attribution: "Map data &copy; <a href=\"https://www.openstreetmap.org/\">OpenStreetMap</a> contributors, <a href=\"https://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA</a>, Imagery © <a href=\"https://www.mapbox.com/\">Mapbox</a>",
     maxZoom: 18,
     id: "light-v10",
-    accessToken: "pk.eyJ1IjoiY2NncmFjZSIsImEiOiJja296MjM2ZnkwMXZ0MndwZXR0dmI0ZWEyIn0.ZP_G3UkufeT4HwQyULf2zw"
+    accessToken: API_KEY
 }).addTo(myMap);
 
 
@@ -23,8 +23,7 @@ d3.json(link).then(function(response) {
     for (var i = 0; i < quakes.length; i++) {
       var location = quakes[i].geometry;
       
-    function color(depth) {
-
+  
       var depthcolor = "";
       
       if (depth > 100) {
@@ -56,4 +55,22 @@ d3.json(link).then(function(response) {
         }).bindPopup("<h1>" + quakes[i].properties.place + "</h1>").addTo(myMap);
       }
     }
-  });
+
+  // Create a legend to display information about our map
+var key = L.control({ position: "bottomright" });
+
+// When the layer control is added, insert a div with the class of "legend"
+key.onAdd = function() {
+  var div = L.DomUtil.create("div", "key");
+  var depth = ["0-20", "20-40", "40-60", "60-80", "80-100", ">100"]
+  var colors = ["#e2eb34", "#ebd334", "#eb9f34", "#eb5e34", "#FF0000", "990000"]
+  var labels = [];
+  
+  limits.forEach(function(limit, index) {
+    labels.push("<p><div class=\"color\" style=\"background-color: " + colors[index] + "\"> </div> <span>" + limit +  "</span> </p>");
+});
+div.innerHTML += labels.join(""); // joining all the tags into one single string 
+return div;
+};
+key.addTo(myMap); 
+});
